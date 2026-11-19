@@ -34,7 +34,7 @@ public class TesteComanda {
         String pasta = Files.createTempDirectory("comandas_teste").toString();
         GerenciadorPedidos g = new GerenciadorPedidos(pasta);
 
-        // ---------- Dados base ----------
+
         Cliente cli = g.incluirCliente("Ana Souza", "62999991111", "Rua A");
         Produto pizza = g.incluirProduto("Pizza", 20.00, "Pizza", true);
         Produto refri = g.incluirProduto("Refrigerante", 10.00, "Bebida", true);
@@ -51,7 +51,7 @@ public class TesteComanda {
         PedidoConsumoLocal p5 = g.criarPedidoConsumoLocal(0, 6, 10.0);
         g.adicionarItem(p5.getId(), pizza.getId(), 1);
 
-        // ---------- Abrir / consultar / alterar comanda ----------
+
         Comanda cm1 = g.abrirComanda("Mesa 5");
         Comanda cm2 = g.abrirComanda("Balcão");
         verificar("IDs de comanda sequenciais", cm2.getId() == cm1.getId() + 1);
@@ -64,7 +64,7 @@ public class TesteComanda {
         esperaExcecao("Comanda inexistente", RegistroNaoEncontradoException.class,
                 () -> g.consultarComanda(999));
 
-        // ---------- Pedidos na comanda ----------
+
         g.adicionarPedidoNaComanda(cm1.getId(), p1.getId());
         g.adicionarPedidoNaComanda(cm1.getId(), p2.getId());
         verificar("Pedidos da comanda", g.listarPedidosDaComanda(cm1.getId()).size() == 2);
@@ -82,13 +82,13 @@ public class TesteComanda {
         g.adicionarPedidoNaComanda(cm2.getId(), p3.getId());
         verificar("Total da outra comanda", igual(g.calcularTotalComanda(cm2.getId()), 26.0));
 
-        // ---------- Alterar identificação ----------
+
         g.alterarComanda(cm2.getId(), "Balcão 2");
         verificar("Alteração de comanda", g.consultarComanda(cm2.getId()).getIdentificacao().equals("Balcão 2"));
         esperaExcecao("Alterar para identificação vazia", DadoInvalidoException.class,
                 () -> g.alterarComanda(cm2.getId(), ""));
 
-        // ---------- Total ignora pedido cancelado ----------
+
         PedidoConsumoLocal p6 = g.criarPedidoConsumoLocal(0, 7, 0.0);
         g.adicionarItem(p6.getId(), refri.getId(), 1);            // 10
         g.adicionarPedidoNaComanda(cm2.getId(), p6.getId());
@@ -96,7 +96,7 @@ public class TesteComanda {
         g.cancelarPedido(p6.getId());
         verificar("Total ignora pedido cancelado", igual(g.calcularTotalComanda(cm2.getId()), 26.0));
 
-        // ---------- Fechar comanda ----------
+
         Comanda vazia = g.abrirComanda("Vazia");
         esperaExcecao("Fechar comanda sem pedidos", RegraNegocioException.class,
                 () -> g.fecharComanda(vazia.getId()));
@@ -123,7 +123,7 @@ public class TesteComanda {
         esperaExcecao("Excluir comanda com pedidos", RegraNegocioException.class,
                 () -> g.excluirComanda(cm1.getId()));
 
-        // ---------- Reabrir, remover, excluir pedido que está na comanda ----------
+
         g.reabrirComanda(cm1.getId());
         verificar("Comanda reaberta", g.consultarComanda(cm1.getId()).isAberta());
         esperaExcecao("Reabrir comanda já aberta", RegraNegocioException.class,
@@ -133,13 +133,13 @@ public class TesteComanda {
         esperaExcecao("Remover pedido que não está na comanda", RegistroNaoEncontradoException.class,
                 () -> g.removerPedidoDaComanda(cm1.getId(), p2.getId()));
 
-        g.excluirPedido(p1.getId()); // comanda aberta: tira o pedido da comanda e exclui
+        g.excluirPedido(p1.getId());
         verificar("Excluir pedido tira da comanda aberta",
                 g.consultarComanda(cm1.getId()).getPedidoIds().isEmpty());
         g.adicionarPedidoNaComanda(cm1.getId(), p2.getId());
         verificar("Descrição da comanda contém total", g.descreverComanda(cm1).contains("R$ 33,00"));
 
-        // ---------- Listas por status ----------
+
         verificar("Comandas ABERTAS", g.listarComandasPorStatus(Comanda.STATUS_ABERTA).size() == 2);
         finalizar(g, p3.getId());
         g.fecharComanda(cm2.getId());
@@ -147,7 +147,7 @@ public class TesteComanda {
         esperaExcecao("Status de comanda inválido", DadoInvalidoException.class,
                 () -> g.listarComandasPorStatus("QUALQUER"));
 
-        // ---------- Persistência em arquivo ----------
+
         GerenciadorPedidos g2 = new GerenciadorPedidos(pasta);
         verificar("Persistência: comandas", g2.listarComandas().size() == 2);
         verificar("Persistência: status da comanda", !g2.consultarComanda(cm2.getId()).isAberta());

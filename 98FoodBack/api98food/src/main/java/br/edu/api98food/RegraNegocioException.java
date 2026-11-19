@@ -1,4 +1,3 @@
-// RegraNegocioException.java  (exceção própria: produto indisponível, pedido já em preparo, etc.)
 package br.edu.api98food;
 
 public class RegraNegocioException extends GerenciadorException {

@@ -39,10 +39,7 @@ public abstract class Pedido implements Identificavel {
         this.status = STATUS_ABERTO;
     }
 
-    /**
-     * Gera o ID sequencial. Cada construtor concreto chama no FIM, depois de validar
-     * seus campos, para que um pedido inválido não "gaste" um número.
-     */
+
     protected final void gerarId() {
         this.id = proximoId++;
     }
@@ -55,7 +52,7 @@ public abstract class Pedido implements Identificavel {
         return String.format(Locale.forLanguageTag("pt-BR"), "R$ %.2f", valor);
     }
 
-    // ---------- Polimorfismo ----------
+
     protected abstract boolean exigeCliente();
     public abstract String getTipo();
     public abstract String getDetalhes();
@@ -67,7 +64,7 @@ public abstract class Pedido implements Identificavel {
         return soma;
     }
 
-    // ---------- Itens ----------
+
     public void adicionarItem(Produto produto, int quantidade) throws GerenciadorException {
         garantirAberto();
         if (!produto.isDisponivel())
@@ -111,7 +108,7 @@ public abstract class Pedido implements Identificavel {
         return new ArrayList<>(itens);
     }
 
-    // ---------- Status ----------
+
     public void avancarStatus() throws RegraNegocioException {
         switch (status) {
             case STATUS_ABERTO:
@@ -154,7 +151,7 @@ public abstract class Pedido implements Identificavel {
             throw new RegraNegocioException("Pedido " + status + " não pode ser alterado.");
     }
 
-    // ---------- Getters ----------
+
     @Override public int getId() { return id; }
     public LocalDateTime getDataHora() { return dataHora; }
     public String getStatus() { return status; }

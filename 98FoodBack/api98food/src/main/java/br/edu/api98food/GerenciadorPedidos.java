@@ -25,7 +25,7 @@ public class GerenciadorPedidos {
         pedidos.carregar();
         comandas.carregar();
 
-        // IDs automáticos continuam de onde pararam
+
         Cliente.sincronizarContador(clientes.maiorId());
         Produto.sincronizarContador(produtos.maiorId());
         Pedido.sincronizarContador(pedidos.maiorId());
@@ -39,7 +39,7 @@ public class GerenciadorPedidos {
         comandas.salvar();
     }
 
-    // ===================== CLIENTES =====================
+
     public Cliente incluirCliente(String nome, String telefone, String endereco) throws GerenciadorException {
         Cliente c = new Cliente(nome, telefone, endereco);
         clientes.incluir(c);
@@ -78,7 +78,7 @@ public class GerenciadorPedidos {
         return r;
     }
 
-    // ===================== PRODUTOS =====================
+
     public Produto incluirProduto(String nome, double precoBase, String categoria, boolean disponivel)
             throws GerenciadorException {
         Produto p = new Produto(nome, precoBase, categoria, disponivel);
@@ -125,8 +125,7 @@ public class GerenciadorPedidos {
         return r;
     }
 
-    // ===================== PEDIDOS: criação =====================
-    /** clienteId = 0 significa "sem cliente" (permitido só no consumo local). */
+
     public PedidoConsumoLocal criarPedidoConsumoLocal(int clienteId, int numeroMesa, double taxaServicoPercentual)
             throws GerenciadorException {
         verificarCliente(clienteId);
@@ -158,7 +157,7 @@ public class GerenciadorPedidos {
         if (clienteId > 0) clientes.consultar(clienteId);
     }
 
-    // ===================== PEDIDOS: alteração dos dados do tipo =====================
+
     public PedidoConsumoLocal alterarPedidoConsumoLocal(int pedidoId, int numeroMesa, double taxa)
             throws GerenciadorException {
         Pedido p = pedidos.consultar(pedidoId);
@@ -192,7 +191,7 @@ public class GerenciadorPedidos {
         return (PedidoEntrega) p;
     }
 
-    // ===================== PEDIDOS: itens =====================
+
     public Pedido adicionarItem(int pedidoId, int produtoId, int quantidade) throws GerenciadorException {
         Pedido p = pedidos.consultar(pedidoId);
         Produto prod = produtos.consultar(produtoId);
@@ -223,7 +222,7 @@ public class GerenciadorPedidos {
         return pedidos.consultar(pedidoId).getItens();
     }
 
-    // ===================== PEDIDOS: status, exclusão, consulta, lista =====================
+
     public Pedido avancarStatus(int pedidoId) throws GerenciadorException {
         Pedido p = pedidos.consultar(pedidoId);
         p.avancarStatus();
@@ -240,7 +239,7 @@ public class GerenciadorPedidos {
         return p;
     }
 
-    /** Se o pedido estiver numa comanda ABERTA, é removido dela; em comanda FECHADA, bloqueia. */
+
     public void excluirPedido(int pedidoId) throws GerenciadorException {
         Pedido p = pedidos.consultar(pedidoId);
         if (!p.podeExcluir())
@@ -277,7 +276,7 @@ public class GerenciadorPedidos {
         return r;
     }
 
-    /** Soma do total dos pedidos FINALIZADOS. */
+
     public double calcularFaturamento() {
         double soma = 0;
         for (Pedido p : pedidos.listar())
@@ -285,7 +284,7 @@ public class GerenciadorPedidos {
         return soma;
     }
 
-    // ===================== COMANDAS =====================
+
     public Comanda abrirComanda(String identificacao) throws GerenciadorException {
         Comanda c = new Comanda(identificacao);
         comandas.incluir(c);
@@ -301,7 +300,7 @@ public class GerenciadorPedidos {
         return c;
     }
 
-    /** Só exclui comanda sem pedidos. */
+
     public void excluirComanda(int comandaId) throws GerenciadorException {
         Comanda c = comandas.consultar(comandaId);
         if (!c.getPedidoIds().isEmpty())
@@ -412,7 +411,7 @@ public class GerenciadorPedidos {
         return soma;
     }
 
-    // ===================== Texto pronto para a GUI =====================
+
     public String descreverPedido(Pedido p) {
         StringBuilder sb = new StringBuilder();
         sb.append("Pedido #").append(p.getId()).append(" - ").append(p.getTipo())

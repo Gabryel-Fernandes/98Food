@@ -1,4 +1,3 @@
-// DadoInvalidoException.java
 package br.edu.api98food;
 
 public class DadoInvalidoException extends GerenciadorException {

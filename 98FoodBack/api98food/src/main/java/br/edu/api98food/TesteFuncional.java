@@ -32,7 +32,7 @@ public class TesteFuncional {
         String pasta = tmp.toString();
         GerenciadorPedidos g = new GerenciadorPedidos(pasta);
 
-        // ================= CLIENTES =================
+
         Cliente c1 = g.incluirCliente("Ana Souza", "(62) 99999-1111", "Rua A, 10");
         Cliente c2 = g.incluirCliente("Bruno Lima", "6233334444", "");
         verificar("IDs de cliente sequenciais", c2.getId() == c1.getId() + 1);
@@ -49,7 +49,7 @@ public class TesteFuncional {
         esperaExcecao("Cliente inexistente", RegistroNaoEncontradoException.class,
                 () -> g.consultarCliente(999));
 
-        // ================= PRODUTOS =================
+
         Produto pizza = g.incluirProduto("Pizza Calabresa", 20.00, "Pizza", true);
         Produto refri = g.incluirProduto("Refrigerante", 10.00, "Bebida", true);
         Produto suco = g.incluirProduto("Suco", 8.00, "Bebida", false);
@@ -63,7 +63,7 @@ public class TesteFuncional {
         esperaExcecao("Preço inválido", DadoInvalidoException.class,
                 () -> g.incluirProduto("Grátis", 0, "Outros", true));
 
-        // ================= PEDIDOS: criação =================
+
         PedidoConsumoLocal pl = g.criarPedidoConsumoLocal(0, 5, 10.0);
         PedidoRetirada pr = g.criarPedidoRetirada(c1.getId(), LocalDateTime.now().plusMinutes(30));
         PedidoEntrega pe = g.criarPedidoEntrega(c2.getId(), 6.0, "Rua B, 20");
@@ -87,9 +87,9 @@ public class TesteFuncional {
         PedidoRetirada pv = g.criarPedidoRetirada(c1.getId(), LocalDateTime.now().plusMinutes(10));
         verificar("Pedidos inválidos não consomem ID", pv.getId() == pe.getId() + 1);
 
-        // ================= ITENS E TOTAIS =================
+
         g.adicionarItem(pl.getId(), pizza.getId(), 1);
-        g.adicionarItem(pl.getId(), pizza.getId(), 1); // mesmo produto: soma quantidade
+        g.adicionarItem(pl.getId(), pizza.getId(), 1);
         verificar("Item repetido soma a quantidade",
                 g.listarItensDoPedido(pl.getId()).size() == 1
                         && g.listarItensDoPedido(pl.getId()).get(0).getQuantidade() == 2);
@@ -118,14 +118,14 @@ public class TesteFuncional {
         esperaExcecao("Remover item que não existe", RegistroNaoEncontradoException.class,
                 () -> g.removerItem(pl.getId(), burger.getId()));
 
-        // ================= ALTERAÇÃO DOS DADOS DO TIPO =================
+
         g.alterarPedidoEntrega(pe.getId(), 8.0, "Rua C, 30");
         verificar("Alterar dados da entrega", igual(pe.calcularTotal(), 38.0)
                 && pe.getEnderecoEntrega().equals("Rua C, 30"));
         esperaExcecao("Alterar com tipo errado", DadoInvalidoException.class,
                 () -> g.alterarPedidoConsumoLocal(pe.getId(), 3, 10));
 
-        // ================= STATUS =================
+
         esperaExcecao("Avançar pedido sem itens", RegraNegocioException.class,
                 () -> g.avancarStatus(pv.getId()));
         g.excluirPedido(pv.getId());
@@ -156,7 +156,7 @@ public class TesteFuncional {
         verificar("Faturamento (só finalizados)", igual(g.calcularFaturamento(), 55.0));
         verificar("Descrição para GUI contém total", g.descreverPedido(pl).contains("R$ 55,00"));
 
-        // ================= EXCLUSÕES COM RESTRIÇÃO =================
+
         esperaExcecao("Excluir cliente com pedido", RegraNegocioException.class,
                 () -> g.excluirCliente(c2.getId()));
         esperaExcecao("Excluir produto em pedido", RegraNegocioException.class,
@@ -166,7 +166,7 @@ public class TesteFuncional {
         esperaExcecao("Cliente excluído some", RegistroNaoEncontradoException.class,
                 () -> g.consultarCliente(c2.getId()));
 
-        // ================= PERSISTÊNCIA EM ARQUIVO =================
+
         GerenciadorPedidos g2 = new GerenciadorPedidos(pasta); // reabre lendo dos arquivos
         verificar("Persistência: clientes", g2.listarClientes().size() == 1);
         verificar("Persistência: produtos", g2.listarProdutos().size() == 4);

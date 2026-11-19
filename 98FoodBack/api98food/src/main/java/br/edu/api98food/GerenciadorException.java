@@ -1,4 +1,3 @@
-// GerenciadorException.java
 package br.edu.api98food;
 
 public class GerenciadorException extends Exception {

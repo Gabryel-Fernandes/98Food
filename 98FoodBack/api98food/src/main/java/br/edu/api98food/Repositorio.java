@@ -14,7 +14,7 @@ public class Repositorio<T extends Identificavel> {
         this.arquivo = new File(caminho);
     }
 
-    // ---------- Arquivo ----------
+
     @SuppressWarnings("unchecked")
     public void carregar() throws PersistenciaException {
         if (!arquivo.exists()) {
@@ -38,7 +38,7 @@ public class Repositorio<T extends Identificavel> {
         }
     }
 
-    // ---------- CRUD ----------
+
     public void incluir(T obj) throws DadoInvalidoException {
         for (T t : dados)
             if (t.getId() == obj.getId())

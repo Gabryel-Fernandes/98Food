@@ -1,4 +1,3 @@
-// PersistenciaException.java
 package br.edu.api98food;
 
 public class PersistenciaException extends GerenciadorException {

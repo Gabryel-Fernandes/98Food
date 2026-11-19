@@ -7,7 +7,7 @@ public class ItemPedido implements Serializable {
 
     private final int produtoId;
     private int quantidade;
-    private final double precoUnitario; // preço congelado no momento da venda
+    private final double precoUnitario;
 
     public ItemPedido(int produtoId, int quantidade, double precoUnitario) throws DadoInvalidoException {
         validarQuantidade(quantidade);

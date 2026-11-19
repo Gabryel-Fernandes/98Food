@@ -18,7 +18,7 @@ public class Main {
             int escolha = JOptionPane.showOptionDialog(null, "Gerenciador de Pedidos", "Menu",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoes, opcoes[0]);
 
-            if (escolha == -1 || escolha == 4) break; // fechou a janela ou "Sair"
+            if (escolha == -1 || escolha == 4) break;
 
             try {
                 switch (escolha) {

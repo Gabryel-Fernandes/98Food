@@ -42,7 +42,7 @@ public class Comanda implements Identificavel {
         this.identificacao = identificacao.trim();
     }
 
-    // ---------- Pedidos ----------
+
     public void adicionarPedido(int pedidoId) throws GerenciadorException {
         garantirAberta();
         if (pedidoIds.contains(pedidoId))
@@ -64,7 +64,7 @@ public class Comanda implements Identificavel {
         return new ArrayList<>(pedidoIds);
     }
 
-    // ---------- Status ----------
+
     public void fechar() throws RegraNegocioException {
         garantirAberta();
         this.status = STATUS_FECHADA;
@@ -87,7 +87,7 @@ public class Comanda implements Identificavel {
             throw new RegraNegocioException("Comanda " + id + " está FECHADA. Reabra para alterar.");
     }
 
-    // ---------- Getters ----------
+
     @Override public int getId() { return id; }
     public String getIdentificacao() { return identificacao; }
     public LocalDateTime getDataAbertura() { return dataAbertura; }

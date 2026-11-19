@@ -45,3 +45,4 @@ public class PedidoEntrega extends Pedido {
     public double getTaxaEntrega() { return taxaEntrega; }
     public String getEnderecoEntrega() { return enderecoEntrega; }
 }
+

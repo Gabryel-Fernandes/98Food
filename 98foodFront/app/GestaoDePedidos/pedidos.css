@@ -1,0 +1,258 @@
+.container {
+    min-height: 100vh;
+    min-width: 100vw;
+    display: flex;
+    flex-direction: column;
+    background-color: #fefefe;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffc800;
+    padding: 20px 40px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.lista{
+    display: flex;
+    gap: 20px;
+}
+
+.item{
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.title-logo {
+    color: black;
+    font-family: "Outfit", sans-serif;
+    font-weight: bold;
+    font-style: normal;
+}
+
+.main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 40px 40px;
+    text-align: center;
+}
+
+.container-cardapio{
+    background-color: #dedede;
+    height: 700px;
+    width: 900px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.dados-compra{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 700px;
+    width: 800px;
+}
+
+.dados{
+    background-color: #dedede;
+    width: 100%;
+    height: 600px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.fazer-pedido{
+    background-color: #ffc800;
+    width: 100%;
+    height: 80px;
+    border: none;
+    font-size: 28px;
+    font-weight: bold;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.main-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cabecalho-secao {
+    width: 100%;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.pedidos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    width: 100%;
+    padding: 40px;
+}
+
+.pedido-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.pedido-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.numero-pedido {
+    font-weight: bold;
+    font-size: 18px;
+    color: #333;
+}
+
+.pedido-card h3 {
+    margin: 0 0 5px 0;
+    color: #0056b3;
+}
+
+.tipo-pedido {
+    margin: 0 0 20px 0;
+    color: #555;
+    font-weight: 500;
+}
+
+/* Badges de Status */
+.status {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.badge-aberto { background-color: #ffeeba; color: #856404; }
+.badge-finalizado { background-color: #d4edda; color: #155724; }
+
+/* Botões do Cartão */
+.acoes-pedido {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.btn-comanda, .btn-acao {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    flex: 1;
+    transition: 0.2s;
+}
+
+.btn-comanda {
+    background-color: #e9ecef;
+    color: #333;
+}
+.btn-comanda:hover { background-color: #ced4da; }
+
+.btn-entrega {
+    background-color: #17a2b8;
+    color: white;
+}
+.btn-entrega:hover { background-color: #138496; }
+
+.btn-finalizar {
+    background-color: #28a745;
+    color: white;
+}
+.btn-finalizar:hover { background-color: #218838; }
+
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modal-header h2 { margin: 0; color: #333; }
+
+.btn-fechar {
+    background: none;
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
+    color: #999;
+    cursor: pointer;
+}
+.btn-fechar:hover { color: #dc3545; }
+
+.divisor {
+    border: 0;
+    border-top: 1px dashed #ccc;
+    margin: 15px 0;
+}
+
+.lista-itens-comanda {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.lista-itens-comanda li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: #444;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #0056b3;
+}
+.modal-footer h3 { margin: 0; }
+
+.footer {
+    background-color: #333;
+    color: #ccc;
+    text-align: center;
+    padding: 15px;
+    font-size: 14px;
+}

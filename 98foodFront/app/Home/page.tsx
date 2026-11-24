@@ -15,7 +15,6 @@ export default function Page() {
     const [produtos, setProdutos] = useState<Produto[]>([]);
     const [comanda, setComanda] = useState<Produto[]>([]);
 
-    // 1. Estados para os dados do formulário do cliente
     const [cliente, setCliente] = useState('');
     const [telefone, setTelefone] = useState('');
     const [tipoPedido, setTipoPedido] = useState('local');
@@ -39,7 +38,7 @@ export default function Page() {
 
     const subtotal = comanda.reduce((acumulador, item) => acumulador + item.preco, 0);
 
-    // 2. Função que envia o pedido para o backend (Spring Boot)
+
     const finalizarPedido = async () => {
         if (!cliente) {
             alert("Por favor, preencha o nome do cliente antes de fazer o pedido.");

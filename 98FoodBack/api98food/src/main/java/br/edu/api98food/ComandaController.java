@@ -11,17 +11,11 @@ import java.util.List;
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS})
 public class ComandaController {
 
-    private GerenciadorPedidos gerenciador;
+    private final GerenciadorPedidos gerenciador;
 
-    public ComandaController() {
-        try {
-            this.gerenciador = new GerenciadorPedidos("dados");
-        } catch (Exception e) {
-            System.out.println("Erro ao iniciar o gerenciador: " + e.getMessage());
-        }
+    public ComandaController(GerenciadorPedidos gerenciador) {
+        this.gerenciador = gerenciador;
     }
-
-
 
     public static class ItemRequest {
         public int id;
@@ -73,24 +67,14 @@ public class ComandaController {
         public List<ItemResponse> getItens() { return itens; }
     }
 
-
-
     @GetMapping
     public List<Comanda> listarTodas() {
-        if (gerenciador != null) {
-            return gerenciador.listarComandas();
-        }
-        return new ArrayList<>();
+        return gerenciador.listarComandas();
     }
-
-
 
     @GetMapping("/pedidos")
     public List<PedidoResponse> listarPedidosDetalhados() {
         List<PedidoResponse> resposta = new ArrayList<>();
-        if (gerenciador == null) {
-            return resposta;
-        }
 
         for (Pedido p : gerenciador.listarPedidos()) {
             PedidoResponse dto = new PedidoResponse();
@@ -133,9 +117,6 @@ public class ComandaController {
     @PostMapping("/pedidos/{id}/avancar")
     public ResponseEntity<String> avancarStatusPedido(@PathVariable("id") int id) {
         try {
-            if (gerenciador == null) {
-                this.gerenciador = new GerenciadorPedidos("dados");
-            }
             gerenciador.avancarStatus(id);
             return ResponseEntity.ok("Status atualizado!");
         } catch (Exception e) {
@@ -147,9 +128,6 @@ public class ComandaController {
     @PostMapping("/pedidos/{id}/excluir")
     public ResponseEntity<String> excluirPedido(@PathVariable("id") int id) {
         try {
-            if (gerenciador == null) {
-                this.gerenciador = new GerenciadorPedidos("dados");
-            }
             gerenciador.excluirPedido(id);
             return ResponseEntity.ok("Pedido excluído com sucesso!");
         } catch (Exception e) {
@@ -161,10 +139,6 @@ public class ComandaController {
     @PostMapping
     public ResponseEntity<String> registrarPedido(@RequestBody PedidoRequest req) {
         try {
-            if (gerenciador == null) {
-                this.gerenciador = new GerenciadorPedidos("dados");
-            }
-
             int clienteId = 0;
             if (req.cliente != null && !req.cliente.trim().isEmpty()) {
                 List<Cliente> existentes = gerenciador.buscarClientesPorNome(req.cliente.trim());
@@ -191,12 +165,23 @@ public class ComandaController {
             if (req.itens != null) {
                 for (ItemRequest item : req.itens) {
                     Produto prodNoGerenciador = null;
-                    for (Produto p : gerenciador.listarProdutos()) {
-                        if (p.getNome().equalsIgnoreCase(item.nome)) {
-                            prodNoGerenciador = p;
-                            break;
+
+                    if (item.id > 0) {
+                        try {
+                            prodNoGerenciador = gerenciador.consultarProduto(item.id);
+                        } catch (Exception ignored) {
                         }
                     }
+
+                    if (prodNoGerenciador == null) {
+                        for (Produto p : gerenciador.listarProdutos()) {
+                            if (p.getNome().equalsIgnoreCase(item.nome)) {
+                                prodNoGerenciador = p;
+                                break;
+                            }
+                        }
+                    }
+
                     if (prodNoGerenciador == null) {
                         String cat = (item.categoria != null && !item.categoria.isEmpty()) ? item.categoria : "Geral";
                         prodNoGerenciador = gerenciador.incluirProduto(item.nome, item.preco, cat, true);
@@ -218,22 +203,14 @@ public class ComandaController {
         }
     }
 
-
-
     @GetMapping("/clientes")
     public List<Cliente> listarClientes() {
-        if (gerenciador != null) {
-            return gerenciador.listarClientes();
-        }
-        return new ArrayList<>();
+        return gerenciador.listarClientes();
     }
 
     @PostMapping("/clientes")
     public ResponseEntity<String> cadastrarCliente(@RequestBody ClienteRequest req) {
         try {
-            if (gerenciador == null) {
-                this.gerenciador = new GerenciadorPedidos("dados");
-            }
             if (req.nome == null || req.nome.trim().isEmpty()) {
                 return ResponseEntity.badRequest().body("O nome do cliente é obrigatório.");
             }
@@ -251,9 +228,6 @@ public class ComandaController {
     @PostMapping("/clientes/{id}/excluir")
     public ResponseEntity<String> excluirCliente(@PathVariable("id") int id) {
         try {
-            if (gerenciador == null) {
-                this.gerenciador = new GerenciadorPedidos("dados");
-            }
             gerenciador.excluirCliente(id);
             return ResponseEntity.ok("Cliente excluído com sucesso!");
         } catch (Exception e) {
